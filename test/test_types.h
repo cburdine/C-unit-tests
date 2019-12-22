@@ -24,7 +24,7 @@ typedef struct TestGroup {
     char* groupName;
     TestCase* testCases;
 } TestGroup;
-const struct TestGroup END_OF_TEST_CASES = {NULL, NULL};
+#define END_OF_TEST_CASES {0,0}
 
 
 /*  This type is a sentinel-terminated array of test cases. You

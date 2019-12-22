@@ -26,7 +26,7 @@ static TestCase STRUCTURES_TEST_CASE_ARR[] = {
     {"Example Test Case", exampleTestCase},
     {"Example Test Case with Integers", exampleIntTestCase},
     {"Trivial Failing Test Case", trivialFailingTestCase},
-    {NULL, NULL}
+    END_OF_TEST_CASES
 };
 
 /* 
