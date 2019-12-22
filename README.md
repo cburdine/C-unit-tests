@@ -44,7 +44,7 @@ The easiest way to install this framework is to copy the 'test' directory and al
 Another simple example that prints test data to stdout is provided below:
 ```
 #include <stdio.h>
-#include "test.h"
+#include "test/test.h"
 
 int main(int argc, char** argv){
     runManifestTestGroups(stdout);
