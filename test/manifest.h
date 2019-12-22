@@ -11,7 +11,10 @@
 #include "testGroups/example_testgroup.h"
 
 static TestGroup* TEST_GROUP_MANIFEST[] = {
+    
+    /* list reference to all TestGroups here */
     &STRUCTURES_TESTS,
+
     END_OF_MANIFEST
 };
 

@@ -21,8 +21,8 @@ int runTestGroup(TestGroup* tGroup, FILE* testLog){
     fprintf(testLog, "Running testgroup \'%s\':\n", tGroup->groupName);
 
     for(tind = 0; 
-        tGroup->testCases[tind].name != NULL || 
-        tGroup->testCases[tind].testCase != NULL;
+        tGroup->testCases[tind].name != 0 || 
+        tGroup->testCases[tind].testCase != 0;
         ++tind){
 
         result = tGroup->testCases[tind].testCase(testLog);
