@@ -79,10 +79,16 @@ int trivialFailingTestCase(FILE* testLog){
 
     /*  
         Print information to the 'testLog' parameter to 
-        handle more complicated PASS/FAIL criterion:
+        handle more complicated PASS/FAIL criterion.
+        While printing directly to the test log is not
+        recommended, it is supplied nonetheless to allow
+        for handling of more difficult test cases.
     */
-    fputs("This test will always fail.\n", testLog);
+    fputs("This test will always fail:\n", testLog);
 
+    /*
+        To explicitly faila test, simply return FAIL
+    */
     return FAIL;
 }
 

@@ -46,16 +46,27 @@ int runTestGroup(TestGroup* tGroup, FILE* testLog){
 }
 
 int runManifestTestGroups(FILE* testLog){
-    int tgInd, allPassed;
-
+    int tgInd, allPassed, result, numTestGroupsFailed;
     allPassed = PASS;
+    numTestGroupsFailed = 0;
+
     for(tgInd = 0; TEST_GROUP_MANIFEST[tgInd] != END_OF_MANIFEST; ++tgInd){
-        allPassed &= runTestGroup(TEST_GROUP_MANIFEST[tgInd], testLog);
+        result = runTestGroup(TEST_GROUP_MANIFEST[tgInd], testLog);
+        allPassed &= result;
+        numTestGroupsFailed += (result? 0 : 1);
+    }
+
+    if(allPassed){
+        fputs("----- ALL TESTGROUPS PASSED -----\n",testLog);
+    } else {
+        fprintf(testLog,"----- %d TESTGROUP%s FAILED -----\n", 
+            numTestGroupsFailed, (numTestGroupsFailed==1)? "" : "S"
+        );
     }
 }
 
 int runSpecifiedManifestTestGroups(int groupNameCount, char** groupNames, FILE* testLog){
-    int tgInd, gnInd, allPassed, numTestGroups;
+    int tgInd, gnInd, allPassed, result, numTestGroupsFailed, numTestGroupsNotFound;
     char foundMatch;
 
     allPassed = PASS;
@@ -63,7 +74,10 @@ int runSpecifiedManifestTestGroups(int groupNameCount, char** groupNames, FILE* 
         foundMatch = 0;
         for(tgInd = 0; TEST_GROUP_MANIFEST[tgInd] != END_OF_MANIFEST; ++tgInd){
             if(TEST_GROUP_MANIFEST[tgInd]->groupName == groupNames[gnInd]){
-                allPassed &= runTestGroup(TEST_GROUP_MANIFEST[tgInd], testLog);
+                result = runTestGroup(TEST_GROUP_MANIFEST[tgInd], testLog);
+                allPassed &= result;
+                if(!result){ ++numTestGroupsFailed; }
+
                 foundMatch = 1;
                 break;
             }
@@ -73,7 +87,22 @@ int runSpecifiedManifestTestGroups(int groupNameCount, char** groupNames, FILE* 
                 "ERROR- found no match for test group name '%s'\n\n", 
                 groupNames[gnInd]
             );
+            ++numTestGroupsNotFound;
         }
+    }
+
+    if(allPassed){
+        fputs("----- ALL TESTGROUPS PASSED -----\n",testLog);
+    } else {
+        fprintf(testLog,"----- %d TESTGROUP%s FAILED -----\n", 
+            numTestGroupsFailed, (numTestGroupsFailed==1)? "" : "S"
+        );
+    }
+
+    if(numTestGroupsNotFound > 0){
+        fprintf(testLog,"---- %d TESTGROUP%s NOT FOUND ----\n", 
+            numTestGroupsNotFound, (numTestGroupsNotFound==1)? "" : "S"
+        );
     }
 }
 
